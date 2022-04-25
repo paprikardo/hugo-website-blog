@@ -12,5 +12,12 @@
     <author>Author</author>
     <guid>http://example.org/posts/fourier_transform/the_fourier_transform/</guid>
     <description><![CDATA[Why I directly write about the Discrete Fourier Transform (DFT) In the lectures from Steve Brunton and in the course that I took at ETH the Fourier analysis is thought by introducing the &ldquo;Discrete Fourier Series&rdquo; (a very related transformation) and maybe the &ldquo;Discrete Time Fourier Transform&rdquo; (another related transformation) before talking about the actual &ldquo;Discrete Fourier Transform&rdquo; (DFT). However at this point all lecturers tell you that the DFT is way more relevant in practice compared to the other topics.]]></description>
+</item><item>
+    <title>If you want then create a website! Thats what I did.</title>
+    <link>http://example.org/posts/hugo_website/</link>
+    <pubDate>Sun, 17 Apr 2022 21:12:38 &#43;0200</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/posts/hugo_website/</guid>
+    <description><![CDATA[Recently a peer from university showed me the polyring.ch website. If you are not familiar with it consider to check it out! Basically it is website to link together a set of private websites (mostly IT blogs) from CS students at ETH. I personally love to see self-made web content especially if it is made by my peers at university. Firstly is really neat to learn about what people in your studies are working on and reading how they solved a problem.]]></description>
 </item></channel>
 </rss>
