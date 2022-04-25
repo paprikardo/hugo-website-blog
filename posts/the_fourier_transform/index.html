@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>My explanation of the Discrete Fourier transform - Ricardo</title><meta name="Description" content=""><meta property="og:title" content="My explanation of the Discrete Fourier transform" />
+<meta property="og:description" content="Why I directly write about the Discrete Fourier Transform (DFT) In the lectures from Steve Brunton and in the course that I took at ETH the Fourier analysis is thought by introducing the &ldquo;Discrete Fourier Series&rdquo; (a very related transformation) and maybe the &ldquo;Discrete Time Fourier Transform&rdquo; (another related transformation) before talking about the actual &ldquo;Discrete Fourier Transform&rdquo; (DFT). However at this point all lecturers tell you that the DFT is way more relevant in practice compared to the other topics." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/the_fourier_transform/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-18T16:41:18+02:00" />
+<meta property="article:modified_time" content="2022-04-18T16:41:18+02:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="My explanation of the Discrete Fourier transform"/>
+<meta name="twitter:description" content="Why I directly write about the Discrete Fourier Transform (DFT) In the lectures from Steve Brunton and in the course that I took at ETH the Fourier analysis is thought by introducing the &ldquo;Discrete Fourier Series&rdquo; (a very related transformation) and maybe the &ldquo;Discrete Time Fourier Transform&rdquo; (another related transformation) before talking about the actual &ldquo;Discrete Fourier Transform&rdquo; (DFT). However at this point all lecturers tell you that the DFT is way more relevant in practice compared to the other topics."/>
+<meta name="application-name" content="Ricardo">
+<meta name="apple-mobile-web-app-title" content="Ricardo"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/posts/the_fourier_transform/" /><link rel="prev" href="http://example.org/posts/hugo_website/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "My explanation of the Discrete Fourier transform",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/posts\/the_fourier_transform\/"
+        },"genre": "posts","wordcount":  1431 ,
+        "url": "http:\/\/example.org\/posts\/the_fourier_transform\/","datePublished": "2022-04-18T16:41:18+02:00","dateModified": "2022-04-18T16:41:18+02:00","publisher": {
+            "@type": "Organization",
+            "name": "Ricardo"},"author": {
+                "@type": "Person",
+                "name": "Ricardo"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Ricardo">Ricardo</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Ricardo">Ricardo</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">Posts</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">My explanation of the Discrete Fourier transform</h1><div class="post-meta">
+            <div class="post-meta-line"></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="18-04-2022">18-04-2022</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1431 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;7 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#why-i-directly-write-about-the-discrete-fourier-transform-dft">Why I directly write about the Discrete Fourier Transform (DFT)</a></li>
+      </ul>
+    </li>
+    <li><a href="#whats-the-fourier-transform">Whats the Fourier transform?</a></li>
+    <li><a href="#so-what-does-it-do">So what does it do?</a></li>
+    <li><a href="#signals-composed-of-frequencies">Signals composed of frequencies</a></li>
+    <li><a href="#the-dft-as-a-change-of-basis">The DFT as a change of basis</a></li>
+    <li><a href="#why-this-complex-basis">Why this complex basis?</a></li>
+    <li><a href="#whats-this-actually-useful-for">Whats this actually useful for?</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h3 id="why-i-directly-write-about-the-discrete-fourier-transform-dft">Why I directly write about the Discrete Fourier Transform (DFT)</h3>
+<p><em>In the lectures from Steve Brunton and in the course that I took at ETH the Fourier analysis is thought by introducing the &ldquo;Discrete Fourier Series&rdquo; (a very related transformation) and maybe the &ldquo;Discrete Time Fourier Transform&rdquo; (another related transformation) before talking about the actual &ldquo;Discrete Fourier Transform&rdquo; (<strong>DFT</strong>). However at this point all lecturers tell you that the DFT is way more relevant in practice compared to the other topics. If you simply came across the &ldquo;Fourier transform&rdquo; then its most likely that the topic was about the DFT. I think it can be misleading to study other confusing concepts before understanding what to do with it in practice and want to directly skip to the good stuff. So lets get it.</em></p>
+<h2 id="whats-the-fourier-transform">Whats the Fourier transform?</h2>
+<p>Lets look at the discrete Fourier transform as a blackbox. The Fourier <strong>transformation</strong> is a function, which takes an input (mostly signals, but can be almost any data) and returns an output which is the very same data with respect to a new representation. The data is simply transformed to a new representation. If you remember the &ldquo;basis transform from linear algebra&rdquo;, it is exactly that. In fact this relates very much to projecting a point onto a new set of basis vectors as we will see later.</p>
+<h2 id="so-what-does-it-do">So what does it do?</h2>
+<p>I will jump straight to it. It is a mapping from our original domain to its frequency domain. Assume you have a one dimensional signal like the audio recording of a guitar playing the C-note (mono recording). This recording has time on the x-axis and measured air pressure on the y-axis. The DFT of this signal has frequency on the x-axis and frequency amplitude on the y-axis. Think about it as extracting all the frequencies that are contained in the signal (and uniquely define it) and aligning them on the x-axis.<br>
+To make this more clear I recorded some audio signals and transformed them to their DFT. You can find the recording, code and results in <img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://github.com/paprikardo/Guitar_note_analysis"
+        data-srcset="https://github.com/paprikardo/Guitar_note_analysis, https://github.com/paprikardo/Guitar_note_analysis 1.5x, https://github.com/paprikardo/Guitar_note_analysis 2x"
+        data-sizes="auto"
+        alt="https://github.com/paprikardo/Guitar_note_analysis"
+        title="this repository" />.<br>
+The first recording was a single G-Note played on my acoustic guitar. Sadly I can not include an audio player for now so if you want to listen to it you have to check out the repository (Its a simple G note, believe me).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="./fourier_figs/g_note_original.png"
+        data-srcset="./fourier_figs/g_note_original.png, ./fourier_figs/g_note_original.png 1.5x, ./fourier_figs/g_note_original.png 2x"
+        data-sizes="auto"
+        alt="./fourier_figs/g_note_original.png"
+        title="g_note_original" /> </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Recorded signal</td>
+</tr>
+</tbody>
+</table>
+<p>I then computed the DFT of this signal which gives the following plot:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="./fourier_figs/g_note.png"
+        data-srcset="./fourier_figs/g_note.png, ./fourier_figs/g_note.png 1.5x, ./fourier_figs/g_note.png 2x"
+        data-sizes="auto"
+        alt="./fourier_figs/g_note.png"
+        title="g_note" /> </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">DFT of recorded signal</td>
+</tr>
+<tr>
+<td style="text-align:center">Note that the x-axis is given in Herz, so indicating a specific frequency. The y-axis shows the strength of the corresponding frequency in the signal(i.e. the absolute value of the corresponding Fourier coefficient). Think of this strength as a number $F[i]$ which means that $F[i] *sinwave(i)$ is contained in the signal (where $sinwave(i)$ is the wave with frequency $i$)</td>
+</tr>
+<tr>
+<td style="text-align:center">I additionally looked up five frequencies that correspond to octaves of the G-note on the internet and marked those on the x-axis. Note that the result has sharp spikes at exactly those frequencies (except the first one). This means that our original signal consisted mostly of exactly those frequencies with high peaks and some other negligible weak frequencies. This is actually the result we would expect when processing a G-note. We obviously only played one note, but the octaves (called &ldquo;overtones&rdquo; i think) of this note were created by resonance in the instrument. Thats why our G-Tone reflects to high peaks at some octaves of the G frequencies.</td>
+</tr>
+<tr>
+<td style="text-align:center">I think it is <strong>super cool</strong> that we were able to extract the frequencies of a recorded guitar just like that and kind of see whats its composed of. With this we could already build or own guitar tuner but thats maybe something for another project.</td>
+</tr>
+<tr>
+<td style="text-align:center">I could not resist to transform a voice recording too. Here are the results. I omitted the plots of the original signals as they are not that interesting:</td>
+</tr>
+<tr>
+<td style="text-align:center"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="./fourier_figs/hi.png"
+        data-srcset="./fourier_figs/hi.png, ./fourier_figs/hi.png 1.5x, ./fourier_figs/hi.png 2x"
+        data-sizes="auto"
+        alt="./fourier_figs/hi.png"
+        title="g_note" /> </td>
+</tr>
+<tr>
+<td style="text-align:center">:&mdash;-:</td>
+</tr>
+<tr>
+<td style="text-align:center">DFT of my voice <strong>saying</strong> a simple sentence</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="./fourier_figs/hi_singing.png"
+        data-srcset="./fourier_figs/hi_singing.png, ./fourier_figs/hi_singing.png 1.5x, ./fourier_figs/hi_singing.png 2x"
+        data-sizes="auto"
+        alt="./fourier_figs/hi_singing.png"
+        title="g_note" /> </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">DFT of my voice <strong>singing</strong> a simple sentence on the G-note</td>
+</tr>
+<tr>
+<td style="text-align:center">Really interesting how the difference of speaking and singing the same sentence reflects in the frequency domain.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="signals-composed-of-frequencies">Signals composed of frequencies</h2>
+<p>I wrote about signals that are made up of weighted frequencies. What do I mean by this?<br>
+Its essence comes from a fact that absolutely blew my mind when I learned about it the first time. Here it comes:</p>
+<blockquote>
+<p>Absolutely <strong>any</strong> signal can be build by a weighted sum of sin waves with different frequencies.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th><!-- raw HTML omitted --><!-- raw HTML omitted -->Blow Mind Mind Blown GIF<!-- raw HTML omitted -->from <!-- raw HTML omitted -->Blow Mind GIFs<!-- raw HTML omitted --><!-- raw HTML omitted --> <!-- raw HTML omitted --><!-- raw HTML omitted --> </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Me a few years ago after learning this</td>
+</tr>
+</tbody>
+</table>
+<p>Imagine a continuous signal first, so no recording but rather a physical wave in the universe or something like that. You would probably believe me that if I combine exactly the right sin waves (out of the infinitely different ones) by exactly the right amount I somehow can reconstruct any existing signal. This fact can be proven but at the same time is not applicable to anything as we can not work with infinitely many sin waves. The really nice fact is the following</p>
+<blockquote>
+<p>Absolutely <strong>any</strong> <em>discrete</em> signal of length <strong>n</strong> can be build by a weighted sum of <strong>n</strong> <em>complex</em> sin waves with different frequencies.</p>
+</blockquote>
+<p>Whuaaatt??? Well thats something. A discrete signal is something like an array of data. E.g. a sampled audio signal. We can think of a discrete signal as an n-dimensional vector. Then the DFT transforms any of such vectors to its &ldquo;frequency&rdquo; vector just as a basis transformation in linear algebra. In fact this is exactly what it is.</p>
+<h2 id="the-dft-as-a-change-of-basis">The DFT as a change of basis</h2>
+<p>Think of a discrete signal as just a very long vector. Now - magically - we are in the world of Linear Algebra and can think of the Fourier Transform as really just a change of basis:</p>
+<blockquote>
+<p>The DFT is a change of basis from the canonical basis/time basis to a basis of complex sin waves</p>
+</blockquote>
+<p>So for the DFT we do a basis change to <strong>n</strong> basis vectors which are just discrete sampled complex sine waves. The explicit basis used is ${e^{j<em>2</em>\pi*k}}_{k=1,&hellip;,n}$.</p>
+<h2 id="why-this-complex-basis">Why this complex basis?</h2>
+<p>Well the short answer that I found is just that it works well. Other than that nothing stops you from defining a change of basis to a basis of real sin waves but then this is no Fourier transform anymore and other than that has some other issues. If you transform to a basis of real sin waves a signal and the same signal but shifted (signal has a different phase), then the &ldquo;transformed vector&rdquo; of the shifted signal would be very different that the original one. This is bad since we care about the frequency not bothered by its phase which just is not accomplishable with a real basis.</p>
+<p>Since we use a complex basis we also have a complex &ldquo;frequency vector&rdquo;. In other words the DFT of a signal has complex values which are called Fourier coefficients. So I was computing complex numbers all the time!!! This was no problem though since I always plotted the &ldquo;amplitude&rdquo;/&ldquo;power&rdquo; of the Fourier coefficient which is the absolute value (i.e. $|a+bj| = \sqrt{a^2+b^2}$).</p>
+<h2 id="whats-this-actually-useful-for">Whats this actually useful for?</h2>
+<p>First of all I think it is just super cool to visualize the frequencies just like that. <br>
+I firstly stumbled upon the concept of the frequency domain in music. An &ldquo;Equalizer&rdquo; that can filter or boost the sound (e.g. of your e-guitar) with respect to specific frequencies uses a so called <strong>spectogramm</strong>. This really is nothing else but a Fourier transform composed with a gaussian filter also called Garbor Transform (if unknown do not worry about gaussian filters, they are not that complicated). With a spectogramm you can see which frequencies are contained in the signal <strong>per time segment</strong> instead of frequencies contained in the whole signal (kind of just adding a additional dimension for time). But its essence really comes from the DFT which makes you see the frequencies contained inside a signal.
+Another thing is that the shazam algorithm for example compares pieces of music by applying Fourier transformations and comparing the frequencies inside of songs. This has a lot of advantages compared to doing the same in time domain.<br>
+I also learned that the Fourier transform can be used to solve partial differential equations or to do feature extraction for machine learning.</p>
+<p><em>I really like the DFT and hope that you had some insights while reading this article. I am happy to extend/improve this continuously so if you have any suggestions, spotted errors or questions please send them to me(<a href="mailto:rheinzmann@ethz.ch" rel="">rheinzmann@ethz.ch</a>)</em></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 18-04-2022</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/hugo_website/" class="prev" rel="prev" title="Just create your own website! That is after all what I did."><i class="fas fa-angle-left fa-fw"></i>Just create your own website! That is after all what I did.</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

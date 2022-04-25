@@ -2,7 +2,7 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>http://example.org/posts/fourier_transform/the_fourier_transform/</loc><lastmod>2022-04-18T16:41:18&#43;02:00</lastmod></url><url>
+            <loc>http://example.org/posts/the_fourier_transform/</loc><lastmod>2022-04-18T16:41:18&#43;02:00</lastmod></url><url>
             <loc>http://example.org/posts/</loc><lastmod>2022-04-18T16:41:18&#43;02:00</lastmod></url><url>
             <loc>http://example.org/</loc><lastmod>2022-04-18T16:41:18&#43;02:00</lastmod></url><url>
             <loc>http://example.org/posts/hugo_website/</loc><lastmod>2022-04-17T21:12:38&#43;02:00</lastmod></url><url>
